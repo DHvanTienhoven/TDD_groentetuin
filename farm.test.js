@@ -4,6 +4,7 @@ const {
     get_total_yield,
     get_costs_for_crop,
     get_revenue_for_crop,
+    get_profit_for_crop,
 } = require("./farm.js");
 
 //given tests:
@@ -91,5 +92,24 @@ describe("get_revenue_for_crop", () => {
 
     test("Get revenue for crop", () => {
         expect(get_revenue_for_crop(input)).toBe(130);
+    });
+});
+
+//step 3 write a test that will test the function that will calculate the profit for a crop
+
+describe("get_profit_for_crop", () => {
+    const avocado = {
+        name: "avocado",
+        cost: 4,
+        yield: 8,
+        sale_price: 12,
+        };
+    const input ={
+        crop: avocado,
+        num_crops: 10
+    }
+
+    test("Get profit for crop", () => {
+        expect(get_profit_for_crop(input)).toBe(920);
     });
 });

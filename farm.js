@@ -13,16 +13,21 @@ const get_total_yield = ({crops}) => {
 
 const get_costs_for_crop = input => input.crop.cost * input.num_crops;
 
-//step 2: calculate revenue for a crop (without accounting for environment factors): get_revenue_for_crop
+//step 2: calculate revenue for a crop (without accounting for environmental factors): get_revenue_for_crop
 
 const get_revenue_for_crop = input => get_yield_for_crop(input) * input.crop.sale_price;
+
+//step 3: calculate the profit for a crop (without accounting for environmental factors): get_profit_for_crop
+
+const get_profit_for_crop = input => get_revenue_for_crop(input) - get_costs_for_crop(input);
 
 //module exports
 
 module.exports = {
-    get_yield_for_plant: get_yield_for_plant,
-    get_yield_for_crop: get_yield_for_crop,
-    get_total_yield: get_total_yield,
-    get_costs_for_crop: get_costs_for_crop,
-    get_revenue_for_crop: get_revenue_for_crop,
+    get_yield_for_plant,
+    get_yield_for_crop,
+    get_total_yield,
+    get_costs_for_crop,
+    get_revenue_for_crop,
+    get_profit_for_crop,
 };
