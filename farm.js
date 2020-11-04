@@ -28,6 +28,14 @@ const get_total_profit = ({crops}) => {
     return profitFromAllCrops.reduce ((acc, val) => acc+ val)
 }
 
+//step 5: Take environmental factors into account in calculating the yield of a plant: get_adjusted_yield_for_plant
+
+const get_adjusted_yield_for_plant = (crop, environment) => {
+    const sunIntensity = environment.sun;
+    const yieldPercentage = crop.factors.sun[sunIntensity];
+    return get_yield_for_plant(crop) * (yieldPercentage/100 + 1)
+}
+
 //module exports
 
 module.exports = {
@@ -38,4 +46,5 @@ module.exports = {
     get_revenue_for_crop,
     get_profit_for_crop,
     get_total_profit,
+    get_adjusted_yield_for_plant,
 };
