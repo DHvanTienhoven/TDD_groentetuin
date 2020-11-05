@@ -49,6 +49,12 @@ const get_yield_for_crop = (input, environment) => get_yield_for_plant(input.cro
 
 const get_profit_for_crop = (input, environment) => get_yield_for_crop(input, environment) * input.crop.sale_price - input.crop.cost * input.num_crops;
 
+//step 10 write function get_total_profit
+
+const get_total_profit = ({ crops }, environment) => {
+    const profitFromAllCrops = crops.map(crop => get_profit_for_crop(crop, environment));
+    return profitFromAllCrops.reduce((acc, val) => acc + val)
+};
 
 //module exports
 
@@ -63,4 +69,5 @@ module.exports = {
     get_yield_for_plant,
     get_yield_for_crop,
     get_profit_for_crop,
+    get_total_profit,
 };

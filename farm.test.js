@@ -9,6 +9,7 @@ const {
     get_yield_for_plant,
     get_yield_for_crop,
     get_profit_for_crop,
+    get_total_profit,
 } = require("./farm.js");
 
 
@@ -177,7 +178,7 @@ describe("get_yield_for_plant", () => {
     test("Get yield for plant taking environmental factors into account", () => {
         expect(get_yield_for_plant(corn, environment_factors)).toBe(15)
     });
-})
+});
 
 //step 6 write a test that will test get_yield_for_plant with multiple environmental factors
 //step 7 write a test that will do the same as step 6, but will pass if one or more environmental factors are not relevant for a crop
@@ -253,7 +254,7 @@ describe("get_yield_for_plant", () => {
     test("Get yield for plant taking environmental factors into account", () => {
         expect(get_yield_for_plant(apple, environment_factors)).toBe(11)
     });
-})
+});
 
 //step 8 write a test that will test the function get_yield_for_crop
 
@@ -290,35 +291,35 @@ describe("get_yield_for_crop", () => {
     test("Get yield for crop taking environmental factors into account", () => {
         expect(get_yield_for_crop(input, environment_factors)).toBe(182)
     });
-})
+});
 
 //step 9 write at test that will test get_profit_for_crop
 
 describe("get_profit_for_crop", () => {
 
     const corn = {
-            name: "corn",
-            cost: 1,
-            sale_price: 3,
-            yield: 30,
-            factors: {
-                sun: {
-                    low: -50,
-                    medium: 0,
-                    high: 50,
-                },
-                wind: {
-                    low: 0,
-                    medium: -20,
-                    high: -60,
-                },
-                soil: {
-                    clay: 20,
-                    sandy_clay: 0,
-                    sand: -20
-                }
+        name: "corn",
+        cost: 1,
+        sale_price: 3,
+        yield: 30,
+        factors: {
+            sun: {
+                low: -50,
+                medium: 0,
+                high: 50,
+            },
+            wind: {
+                low: 0,
+                medium: -20,
+                high: -60,
+            },
+            soil: {
+                clay: 20,
+                sandy_clay: 0,
+                sand: -20
             }
-        };
+        }
+    };
 
     const environment_factors = {
         sun: "high",
@@ -328,7 +329,103 @@ describe("get_profit_for_crop", () => {
 
     const input = { crop: corn, num_crops: 10 }
 
-    test("Get yield for crop taking environmental factors into account", () => {
+    test("Get profit for crop taking environmental factors into account", () => {
         expect(get_profit_for_crop(input, environment_factors)).toBe(1610)
     });
-})
+});
+
+// step 10 write a test for get_total_profit
+
+describe("get_profit_for_crop", () => {
+
+    const corn = {
+        name: "corn",
+        cost: 1,
+        sale_price: 3,
+        yield: 30,
+        factors: {
+            sun: {
+                low: -50,
+                medium: 0,
+                high: 50,
+            },
+            wind: {
+                low: 0,
+                medium: -20,
+                high: -60,
+            },
+            soil: {
+                clay: 20,
+                sandy_clay: 0,
+                sand: -20
+            }
+        }
+    };
+    const avocado = {
+        name: "avocado",
+        cost: 4,
+        yield: 8,
+        sale_price: 12,
+        factors: {
+            sun: {
+                low: -80,
+                medium: -30,
+                high: 20,
+            },
+
+            soil: {
+                clay: -40,
+                sandy_clay: 10,
+                sand: 20
+            }
+        }
+    };
+    const apple = {
+        name: "apple",
+        cost: 3,
+        yield: 13,
+        sale_price: 2,
+        factors: {
+            sun: {
+                high: 20,
+                medium: -5,
+                low: -15
+            }
+        }
+    };
+    const pumpkin = {
+        name: "pumpkin",
+        cost: 2,
+        yield: 4,
+        sale_price: 5,
+        factors: {
+            sun: {
+                high: 10,
+                medium: 5,
+                low: 0
+            },
+            soil: {
+                clay: 20,
+                sandy_clay: 5,
+                sand: -30
+            }
+        }
+    }
+
+
+    const environment_factors = {
+        sun: "medium",
+        wind: "high",
+        soil: "sandy_clay"
+    };
+
+    const crops =
+        [{ crop: corn, num_crops: 5 },
+        { crop: pumpkin, num_crops: 2 },
+        { crop: avocado, num_crops: 10 },
+        { crop: apple, num_crops: 6 }]
+
+    test("Get profit for crop taking environmental factors into account", () => {
+        expect(get_total_profit({ crops }, environment_factors)).toBe(1017)
+    });
+});
