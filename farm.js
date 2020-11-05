@@ -29,25 +29,17 @@ const get_total_profit = ({crops}) => {
 }
 
 //step 5: Take environmental factors into account in calculating the yield of a plant: get_adjusted_yield_for_plant
+//step 6: Take this step with multiple environmental factors
+//step 7: Write the function of step 6, but make sure it will work for crops if one or more environmental factors are not relevant
 
 const get_adjusted_yield_for_plant = (crop, environment) => {
-    const sunIntensity = environment.sun;
-    const yieldPercentage = crop.factors.sun[sunIntensity];
-    return get_yield_for_plant(crop) * (yieldPercentage/100 + 1)
-}
-
-//step 6: Take this step with multiple environmental factors
-
-const get_adjusted_yield_for_plant_multiple = (crop, environment) => {
-    const sunPercentage = crop.factors.sun[environment.sun] || 0;
-    const windPercentage = crop.factors.wind[environment.wind] || 0;
-    const soilPercentage = crop.factors.soil[environment.soil] || 0;
+    const sunPercentage = "sun" in crop.factors? crop.factors.sun[environment.sun] || 0 : 0;
+    const windPercentage = "wind" in crop.factors? crop.factors.wind[environment.wind] || 0 : 0;
+    const soilPercentage = "soil" in crop.factors? crop.factors.soil[environment.soil] || 0 : 0;
     const percentages = [sunPercentage, windPercentage, soilPercentage];
     multiplyFactors = percentages.map(percentage => percentage / 100 + 1);
     return Math.floor(multiplyFactors.reduce((acc, curr) =>  acc * curr, get_yield_for_plant(crop)))
 }
-
-
 
 //module exports
 
@@ -60,5 +52,4 @@ module.exports = {
     get_profit_for_crop,
     get_total_profit,
     get_adjusted_yield_for_plant,
-    get_adjusted_yield_for_plant_multiple,
 };

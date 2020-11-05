@@ -7,8 +7,6 @@ const {
     get_profit_for_crop,
     get_total_profit,
     get_adjusted_yield_for_plant,
-    get_adjusted_yield_for_plant2,
-    get_adjusted_yield_for_plant_multiple,
 } = require("./farm.js");
 
 //given tests:
@@ -88,8 +86,8 @@ describe("get_revenue_for_crop", () => {
         name: "apple",
         yield: 13,
         sale_price: 2,
-        };
-    const input ={
+    };
+    const input = {
         crop: apple,
         num_crops: 5
     }
@@ -107,8 +105,8 @@ describe("get_profit_for_crop", () => {
         cost: 4,
         yield: 8,
         sale_price: 12,
-        };
-    const input ={
+    };
+    const input = {
         crop: avocado,
         num_crops: 10
     }
@@ -126,7 +124,7 @@ describe("get_total_profit", () => {
         cost: 4,
         yield: 8,
         sale_price: 12,
-        };
+    };
     const corn = {
         name: "corn",
         cost: 1,
@@ -148,17 +146,17 @@ describe("get_total_profit", () => {
     const crops = [
         { crop: corn, num_crops: 5 },
         { crop: pumpkin, num_crops: 2 },
-        { crop: avocado, num_crops: 10},
-        { crop: apple, num_crops: 6}
+        { crop: avocado, num_crops: 10 },
+        { crop: apple, num_crops: 6 }
     ];
     test("Get total profit", () => {
-        expect(get_total_profit({crops})).toBe(1134);
+        expect(get_total_profit({ crops })).toBe(1134);
     });
 });
 
 //step 5: write a test that will test the function that will take environmental factors into account for calculating the yiald of a crop
 
-describe("get_adjusted_yield_for_plant", () =>{
+describe("get_adjusted_yield_for_plant", () => {
     const corn = {
         name: "corn",
         yield: 30,
@@ -173,14 +171,16 @@ describe("get_adjusted_yield_for_plant", () =>{
     const environment_factors = {
         sun: "low",
     };
-    test("Get yield for plant taking environmental factors into account", () =>{
+    test("Get yield for plant taking environmental factors into account", () => {
         expect(get_adjusted_yield_for_plant(corn, environment_factors)).toBe(15)
     });
 })
 
 //step 6 write a test that will test get_adjusted_yield_for_plant with multiple environmental factors
+//step 7 write a test that will do the same as step 6, but will pass if one or more environmental factors are not relevant for a crop
 
-describe("get_adjusted_yield_for_plant", () =>{
+
+describe("get_adjusted_yield_for_plant", () => {
     const corn = {
         name: "corn",
         yield: 30,
@@ -195,19 +195,60 @@ describe("get_adjusted_yield_for_plant", () =>{
                 medium: -20,
                 high: -60,
             },
-            soil:{
+            soil: {
                 clay: 20,
                 sandy_clay: 0,
                 sand: -20
             }
-        },
+        }
     };
+    const avocado = {
+        name: "avocado",
+        cost: 4,
+        yield: 8,
+        sale_price: 12,
+        factors: {
+            sun: {
+                low: -80,
+                medium: 0,
+                high: 40,
+            },
+
+            soil: {
+                clay: -40,
+                sandy_clay: 10,
+                sand: 20
+            }
+        }
+    };
+
+    const apple = {
+        name: "apple",
+        cost: 3,
+        yield: 13,
+        sale_price: 2,
+        factors: {
+            sun: {
+                high: 20,
+                medium: -5,
+                low: -15
+            }
+        }
+    };
+
+
     const environment_factors = {
-        sun: "high",
+        sun: "low",
         wind: "high",
-        soil: "sand"
+        soil: "sandy_clay"
     };
-    test("Get yield for plant taking environmental factors into account", () =>{
-        expect(get_adjusted_yield_for_plant_multiple(corn, environment_factors)).toBe(14)
+    test("Get yield for plant taking environmental factors into account", () => {
+        expect(get_adjusted_yield_for_plant(corn, environment_factors)).toBe(6)
+    });
+    test("Get yield for plant taking environmental factors into account", () => {
+        expect(get_adjusted_yield_for_plant(avocado, environment_factors)).toBe(1)
+    });
+    test("Get yield for plant taking environmental factors into account", () => {
+        expect(get_adjusted_yield_for_plant(apple, environment_factors)).toBe(11)
     });
 })
