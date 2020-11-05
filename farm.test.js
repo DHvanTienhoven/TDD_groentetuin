@@ -7,6 +7,8 @@ const {
     get_profit_for_crop,
     get_total_profit,
     get_adjusted_yield_for_plant,
+    get_adjusted_yield_for_plant2,
+    get_adjusted_yield_for_plant3,
 } = require("./farm.js");
 
 //given tests:
@@ -173,5 +175,36 @@ describe("get_adjusted_yield_for_plant", () =>{
     };
     test("Get yield for plant taking environmental factors into account", () =>{
         expect(get_adjusted_yield_for_plant(corn, environment_factors)).toBe(15)
+    });
+})
+
+//step 6 write a test that will test get_adjusted_yield_for_plant with multiple environmental factors
+
+describe("get_adjusted_yield_for_plant", () =>{
+    const corn = {
+        name: "corn",
+        yield: 30,
+        factors: {
+            sun: {
+                low: -50,
+                medium: 0,
+                high: 50,
+            },
+            wind: {
+                low: 0,
+                medium: -20,
+                high: -60,
+            }
+        },
+    };
+    const environment_factors = {
+        sun: "high",
+        wind: "high",
+    };
+    test("Get yield for plant taking environmental factors into account", () =>{
+        expect(get_adjusted_yield_for_plant2(corn, environment_factors)).toBe(18)
+    });
+    test("Get yield for plant taking environmental factors into account", () =>{
+        expect(get_adjusted_yield_for_plant3(corn, environment_factors)).toBe(18)
     });
 })

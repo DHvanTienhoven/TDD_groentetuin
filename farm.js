@@ -36,6 +36,47 @@ const get_adjusted_yield_for_plant = (crop, environment) => {
     return get_yield_for_plant(crop) * (yieldPercentage/100 + 1)
 }
 
+//step 6: Take this step with multiple environmental factors
+
+const get_adjusted_yield_for_plant2 = (crop, environment) => {
+    const yieldPercentageSun = crop.factors.sun[environment.sun];
+    const yieldPercentageWind = crop.factors.wind[environment.wind];
+    const fromPercentageToMultiplyFactor = percentage => percentage/100 +1;
+    return get_yield_for_plant(crop) * fromPercentageToMultiplyFactor(yieldPercentageSun) * fromPercentageToMultiplyFactor(yieldPercentageWind)
+}
+
+const get_adjusted_yield_for_plant3 = (crop, environment) => {
+    const percentages = [crop.factors.sun[environment.sun], crop.factors.wind[environment.wind]];
+    multiplyFactors = percentages.map(percentage => percentage/100 +1 );
+    return get_yield_for_plant(crop) * multiplyFactors[0] * multiplyFactors[1];
+}
+
+const corn = {
+    name: "corn",
+    yield: 30,
+    factors: {
+        sun: {
+            low: -50,
+            medium: 0,
+            high: 50,
+        },
+        wind: {
+            low: 0,
+            medium: -20,
+            high: -60,
+        }
+    },
+};
+const environment_factors = {
+    sun: "high",
+    wind: "high",
+};
+
+console.log(get_adjusted_yield_for_plant3(corn, environment_factors))
+
+
+
+
 //module exports
 
 module.exports = {
@@ -47,4 +88,6 @@ module.exports = {
     get_profit_for_crop,
     get_total_profit,
     get_adjusted_yield_for_plant,
+    get_adjusted_yield_for_plant2,
+    get_adjusted_yield_for_plant3
 };
