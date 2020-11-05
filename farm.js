@@ -38,42 +38,14 @@ const get_adjusted_yield_for_plant = (crop, environment) => {
 
 //step 6: Take this step with multiple environmental factors
 
-const get_adjusted_yield_for_plant2 = (crop, environment) => {
-    const yieldPercentageSun = crop.factors.sun[environment.sun];
-    const yieldPercentageWind = crop.factors.wind[environment.wind];
-    const fromPercentageToMultiplyFactor = percentage => percentage/100 +1;
-    return get_yield_for_plant(crop) * fromPercentageToMultiplyFactor(yieldPercentageSun) * fromPercentageToMultiplyFactor(yieldPercentageWind)
+const get_adjusted_yield_for_plant_multiple = (crop, environment) => {
+    const sunPercentage = crop.factors.sun[environment.sun] || 0;
+    const windPercentage = crop.factors.wind[environment.wind] || 0;
+    const soilPercentage = crop.factors.soil[environment.soil] || 0;
+    const percentages = [sunPercentage, windPercentage, soilPercentage];
+    multiplyFactors = percentages.map(percentage => percentage / 100 + 1);
+    return Math.floor(multiplyFactors.reduce((acc, curr) =>  acc * curr, get_yield_for_plant(crop)))
 }
-
-const get_adjusted_yield_for_plant3 = (crop, environment) => {
-    const percentages = [crop.factors.sun[environment.sun], crop.factors.wind[environment.wind]];
-    multiplyFactors = percentages.map(percentage => percentage/100 +1 );
-    return get_yield_for_plant(crop) * multiplyFactors[0] * multiplyFactors[1];
-}
-
-const corn = {
-    name: "corn",
-    yield: 30,
-    factors: {
-        sun: {
-            low: -50,
-            medium: 0,
-            high: 50,
-        },
-        wind: {
-            low: 0,
-            medium: -20,
-            high: -60,
-        }
-    },
-};
-const environment_factors = {
-    sun: "high",
-    wind: "high",
-};
-
-console.log(get_adjusted_yield_for_plant3(corn, environment_factors))
-
 
 
 
@@ -88,6 +60,5 @@ module.exports = {
     get_profit_for_crop,
     get_total_profit,
     get_adjusted_yield_for_plant,
-    get_adjusted_yield_for_plant2,
-    get_adjusted_yield_for_plant3
+    get_adjusted_yield_for_plant_multiple,
 };

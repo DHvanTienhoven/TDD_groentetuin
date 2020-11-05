@@ -8,7 +8,7 @@ const {
     get_total_profit,
     get_adjusted_yield_for_plant,
     get_adjusted_yield_for_plant2,
-    get_adjusted_yield_for_plant3,
+    get_adjusted_yield_for_plant_multiple,
 } = require("./farm.js");
 
 //given tests:
@@ -194,17 +194,20 @@ describe("get_adjusted_yield_for_plant", () =>{
                 low: 0,
                 medium: -20,
                 high: -60,
+            },
+            soil:{
+                clay: 20,
+                sandy_clay: 0,
+                sand: -20
             }
         },
     };
     const environment_factors = {
         sun: "high",
         wind: "high",
+        soil: "sand"
     };
     test("Get yield for plant taking environmental factors into account", () =>{
-        expect(get_adjusted_yield_for_plant2(corn, environment_factors)).toBe(18)
-    });
-    test("Get yield for plant taking environmental factors into account", () =>{
-        expect(get_adjusted_yield_for_plant3(corn, environment_factors)).toBe(18)
+        expect(get_adjusted_yield_for_plant_multiple(corn, environment_factors)).toBe(14)
     });
 })
