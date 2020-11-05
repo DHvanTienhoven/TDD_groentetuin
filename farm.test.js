@@ -8,6 +8,7 @@ const {
     get_total_profit_simple,
     get_yield_for_plant,
     get_yield_for_crop,
+    get_profit_for_crop,
 } = require("./farm.js");
 
 
@@ -288,5 +289,46 @@ describe("get_yield_for_crop", () => {
 
     test("Get yield for crop taking environmental factors into account", () => {
         expect(get_yield_for_crop(input, environment_factors)).toBe(182)
+    });
+})
+
+//step 9 write at test that will test get_profit_for_crop
+
+describe("get_profit_for_crop", () => {
+
+    const corn = {
+            name: "corn",
+            cost: 1,
+            sale_price: 3,
+            yield: 30,
+            factors: {
+                sun: {
+                    low: -50,
+                    medium: 0,
+                    high: 50,
+                },
+                wind: {
+                    low: 0,
+                    medium: -20,
+                    high: -60,
+                },
+                soil: {
+                    clay: 20,
+                    sandy_clay: 0,
+                    sand: -20
+                }
+            }
+        };
+
+    const environment_factors = {
+        sun: "high",
+        wind: "low",
+        soil: "clay"
+    };
+
+    const input = { crop: corn, num_crops: 10 }
+
+    test("Get yield for crop taking environmental factors into account", () => {
+        expect(get_profit_for_crop(input, environment_factors)).toBe(1610)
     });
 })

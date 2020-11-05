@@ -41,9 +41,14 @@ const get_yield_for_plant = (crop, environment) => {
     return Math.floor(multiplyFactors.reduce((acc, curr) => acc * curr, get_yield_for_plant_simple(crop)))
 };
 
-//step 8
+//step 8 write function get_yield_for_crop
 
 const get_yield_for_crop = (input, environment) => get_yield_for_plant(input.crop, environment) * input.num_crops;
+
+//step 9 write function get_profit_for_crop
+
+const get_profit_for_crop = (input, environment) => get_yield_for_crop(input, environment) * input.crop.sale_price - input.crop.cost * input.num_crops;
+
 
 //module exports
 
@@ -57,4 +62,5 @@ module.exports = {
     get_total_profit_simple,
     get_yield_for_plant,
     get_yield_for_crop,
+    get_profit_for_crop,
 };
