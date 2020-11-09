@@ -47,7 +47,7 @@ const get_yield_for_crop = (input, environment) => get_yield_for_plant(input.cro
 
 //step 9 write function get_profit_for_crop
 
-const get_profit_for_crop = (input, environment) => get_yield_for_crop(input, environment) * input.crop.sale_price - input.crop.cost * input.num_crops;
+const get_profit_for_crop = (input, environment) => get_yield_for_crop(input, environment) * input.crop.sale_price - get_costs_for_crop_simple(input);
 
 //step 10 write function get_total_profit
 
