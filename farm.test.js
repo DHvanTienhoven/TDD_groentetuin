@@ -12,7 +12,6 @@ const {
     get_total_profit,
 } = require("./farm.js");
 
-
 //given tests:
 
 describe("get_yield_for_plant_simple", () => {
